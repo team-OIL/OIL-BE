@@ -1,4 +1,4 @@
-package com.example.OIL.common.error.exception;
+package com.example.OIL.global.error.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +30,11 @@ public enum ErrorCode implements ErrorProperty {
     UNSUPPORTED_MEDIA_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "UNSUPPORTED_MEDIA_TYPE", "지원되지 않는 미디어 타입입니다."),
 
     // 500 Internal Server Error
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다."),
+
+    EXPIRED_JWT(HttpStatus.UNAUTHORIZED, "Expired JWT", "만료된 JWT입니다."),
+
+    INVALID_JWT(HttpStatus.UNAUTHORIZED, "Invalid JWT", "유효하지 않은 JWT입니다.");
 
     private final HttpStatus status;
     private final String code;

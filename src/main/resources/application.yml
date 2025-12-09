@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: 
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/oil?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: oil_user
+    password: 1592!Witdlggcxz
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -20,6 +20,12 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+
 # Swagger ?? (Springdoc)
 springdoc:
   api-docs:
@@ -33,9 +39,12 @@ logging:
     org.hibernate.type.descriptor.sql: trace
 
 jwt:
-  secret: "YOUR_JWT_SECRET_KEY"
-  access-token-expiration: 3600000
-  refresh-token-expiration: 1209600000
+  secret: "THIS_IS_SECRET_KEY_CHANGE_IT_TO_REAL_VALUE"
+  access-token-expiration: 3600000     # 1시간 (ms)
+  refresh-token-expiration: 1209600000 # 14일 (ms)
+  header: Authorization
+  prefix: "Bearer "
+
 
 cloud:
   aws:
