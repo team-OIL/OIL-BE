@@ -1,4 +1,4 @@
-package com.example.OIL.common.error.exception;
+package com.example.OIL.global.error.exception;
 
 import org.springframework.http.HttpStatus;
 
