@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,10 +50,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
 
                         // Swagger (개발용)
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**"
-                        ).permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
@@ -62,6 +60,13 @@ public class SecurityConfig {
                 .build();
     }
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
+        );
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

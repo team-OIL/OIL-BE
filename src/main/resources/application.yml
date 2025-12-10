@@ -26,12 +26,6 @@ spring:
       port: ${REDIS_PORT}
 
 
-# Swagger ?? (Springdoc)
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
 
 logging:
   level:
