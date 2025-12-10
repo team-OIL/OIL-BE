@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "missions")
 @Getter
 @NoArgsConstructor
 public class Mission {
@@ -15,11 +14,8 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long missionId;
 
-    @Column(nullable = false)
     private String content;
 
-    @Builder
-    public Mission(String content) {
-        this.content = content;
-    }
+    private int durationTime;
+
 }

@@ -31,11 +31,6 @@ public class LoginService {
             throw new OILException(AuthErrorCode.INVALID_CREDENTIALS);
         }
 
-        // 3) 푸시 토큰이 있으면 사용자 정보에 푸시 토큰 업데이트
-        if (request.pushToken() != null) {
-            user.updatePushToken(request.pushToken());  // 푸시 토큰을 업데이트하는 메서드 호출
-            userRepository.save(user);  // 업데이트된 정보를 DB에 저장
-        }
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(request.email());
 

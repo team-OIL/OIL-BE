@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class updatePushTokenService {
+public class UpdatePushTokenService {
 
     private final UserFacade userFacade;
 

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UserFacade {
@@ -24,4 +26,15 @@ public class UserFacade {
         return userRepository.findById(id)
                 .orElseThrow(() -> new OILException(UserErrorCode.USER_NOT_FOUND));
     }
+
+    // 모든 사용자 가져오기
+    public List<User> getAllUsers() {
+        return userRepository.findAll();  // 모든 사용자 조회
+    }
+
+    // 특정 사용자 푸시 토큰 가져오기
+    public String getPushToken(User user) {
+        return user.getPushToken();
+    }
+
 }

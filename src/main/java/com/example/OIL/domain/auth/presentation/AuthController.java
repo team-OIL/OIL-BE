@@ -2,11 +2,9 @@ package com.example.OIL.domain.auth.presentation;
 
 import com.example.OIL.domain.auth.presentation.dto.request.LoginRequest;
 import com.example.OIL.domain.auth.presentation.dto.request.SignUpRequest;
+import com.example.OIL.domain.auth.presentation.dto.request.TokenRequest;
 import com.example.OIL.domain.auth.presentation.dto.response.TokenResponse;
-import com.example.OIL.domain.auth.service.LoginService;
-import com.example.OIL.domain.auth.service.LogoutService;
-import com.example.OIL.domain.auth.service.ReissueService;
-import com.example.OIL.domain.auth.service.SignupService;
+import com.example.OIL.domain.auth.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,8 @@ public class AuthController {
     private final LoginService loginService;
     private final LogoutService logoutService;
     private final ReissueService reissueService;
+    private final UpdatePushTokenService  updatePushTokenService;
+    private final DeletePushTokenService deletePushTokenService;
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,5 +44,17 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public TokenResponse reissue(HttpServletRequest request) {
         return reissueService.execute(request);
+    }
+
+    @PatchMapping("/push-token")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void setToken(@RequestBody @Valid TokenRequest request) {
+        updatePushTokenService.execute(request);
+    }
+
+    @DeleteMapping("/push-token")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteToken() {
+        deletePushTokenService.execute();
     }
 }

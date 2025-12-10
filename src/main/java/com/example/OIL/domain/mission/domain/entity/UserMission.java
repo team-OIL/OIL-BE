@@ -5,47 +5,46 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
 @Entity
-@Table(name = "user_missions")
 @Getter
 @NoArgsConstructor
 public class UserMission {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userMissionId;
-
-    // 연결된 User
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    // 미션 ID
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
-    // 완료 여부
-    @Column(nullable = false)
-    private boolean isCompleted;
+    private LocalDate assignedDate; // 미션 부여 날짜
 
-    // 완료 시각
-    private LocalDateTime completedAt;
+    @Column(columnDefinition = "TEXT")
+    private String resultText;      // 수행 결과 텍스트
+    private String resultImageUrl;  // 수행 인증샷 URL (선택)
+
+    private boolean isCompleted;    // 수행 완료 여부
+    private LocalDateTime completedAt; // 수행 완료 시간
 
     @Builder
-    public UserMission(User user, Mission mission) {
+    public UserMission(User user, Mission mission, LocalDate assignedDate) {
         this.user = user;
         this.mission = mission;
+        this.assignedDate = assignedDate;
         this.isCompleted = false;
     }
 
-    /**
-     * 미션 완료 처리
-     */
-    public void completeMission() {
+    // 수행 완료 처리 메서드 (비즈니스 로직용)
+    public void completeMission(String resultText, String imageUrl) {
+        this.resultText = resultText;
+        this.resultImageUrl = imageUrl;
         this.isCompleted = true;
         this.completedAt = LocalDateTime.now();
     }

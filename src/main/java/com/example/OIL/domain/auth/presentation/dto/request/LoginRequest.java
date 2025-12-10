@@ -8,8 +8,7 @@ public record LoginRequest(
         String email,
 
         @NotBlank(message = MessageProperty.PASSWORD_NOT_BLANK)
-        String password,
+        String password
 
-        String pushToken
 ) {
 }
