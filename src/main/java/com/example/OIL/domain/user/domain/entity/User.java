@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "users")
@@ -27,7 +30,7 @@ public class User extends BaseTimeEntity {
 
     // 매일 미션을 받을 시간 (예: "08:00")
     @Column(nullable = false)
-    private String missionTime;
+    private LocalTime missionTime;
 
     // 알림 설정 ON/OFF
     @Column(nullable = false)
@@ -37,7 +40,7 @@ public class User extends BaseTimeEntity {
     private String pushToken;
 
     @Builder
-    public User(String email, String password, String userName, String missionTime, boolean isAlarmEnabled, String pushToken) {
+    public User(String email, String password, String userName, LocalTime missionTime, boolean isAlarmEnabled, String pushToken) {
         this.email = email;
         this.password = password;
         this.userName = userName;
@@ -63,7 +66,7 @@ public class User extends BaseTimeEntity {
     /**
      * 미션 받을 시간 변경
      */
-    public void updateMissionTime(String missionTime) {
+    public void updateMissionTime(LocalTime missionTime) {
         this.missionTime = missionTime;
     }
 

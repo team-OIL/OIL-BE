@@ -4,6 +4,8 @@ import com.example.OIL.global.util.MessageProperty;
 import com.example.OIL.global.util.RegexProperty;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalTime;
+
 public record SignUpRequest(
         @Email(message = MessageProperty.EMAIL_INVALID)
         @NotBlank(message = MessageProperty.EMAIL_NOT_BLANK)
@@ -18,7 +20,7 @@ public record SignUpRequest(
         String password,
 
         @NotBlank(message = MessageProperty.MISSION_TIME_NOT_BLANK)
-        String missionTime,
+        LocalTime missionTime,
 
         @NotNull(message = MessageProperty.ALARM_NOT_NULL)
         boolean isAlarmEnabled,
