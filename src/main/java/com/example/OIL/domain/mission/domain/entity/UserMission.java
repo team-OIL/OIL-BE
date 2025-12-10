@@ -1,5 +1,6 @@
 package com.example.OIL.domain.mission.domain.entity;
 
+import com.example.OIL.domain.mission.presentation.dto.request.MissionCompleteRequest;
 import com.example.OIL.domain.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -17,20 +18,22 @@ public class UserMission {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
+    @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
 
-    private LocalDate assignedDate; // 미션 부여 날짜
+    private LocalDate assignedDate;  // 미션이 배정된 날짜
 
     @Column(columnDefinition = "TEXT")
-    private String resultText;      // 수행 결과 텍스트
-    private String resultImageUrl;  // 수행 인증샷 URL (선택)
+    private String resultText;       // 수행 결과 메시지 (선택)
 
-    private boolean isCompleted;    // 수행 완료 여부
+    private String resultImageUrl;   // 수행 결과 URL (선택)
+
+    private boolean isCompleted;     // 수행 여부
+
     private LocalDateTime completedAt; // 수행 완료 시간
 
     @Builder
@@ -41,10 +44,10 @@ public class UserMission {
         this.isCompleted = false;
     }
 
-    // 수행 완료 처리 메서드 (비즈니스 로직용)
-    public void completeMission(String resultText, String imageUrl) {
-        this.resultText = resultText;
-        this.resultImageUrl = imageUrl;
+    // 미션 완료 처리
+    public void completeMission(MissionCompleteRequest request) {
+        this.resultText = request.text();
+        this.resultImageUrl = request.imgUrl();
         this.isCompleted = true;
         this.completedAt = LocalDateTime.now();
     }

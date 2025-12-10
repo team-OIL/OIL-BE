@@ -18,4 +18,9 @@ public class Mission {
 
     private int durationTime;
 
+    @Builder
+    public Mission(String content, int durationTime) {
+        this.content = content;
+        this.durationTime = durationTime;
+    }
 }
