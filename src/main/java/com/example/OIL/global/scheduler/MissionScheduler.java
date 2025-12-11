@@ -1,26 +1,32 @@
 package com.example.OIL.global.scheduler;
 
-import com.example.OIL.domain.mission.service.MissionService;
+import com.example.OIL.domain.mission.service.CreateDailyMissionService;
+import com.example.OIL.domain.user.domain.entity.User;
+import com.example.OIL.domain.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class MissionScheduler {
-    private final MissionService missionService;
+    private final UserRepository userRepository;
+    private final CreateDailyMissionService createDailyMissionService;
 
-    // cron = "초 분 시 일 월 요일"
-    // 매분 0초에 실행 (1분 주기)
+    // 매 1분마다 실행됨
     @Scheduled(cron = "0 * * * * *")
-    public void scheduleMissionDistribution() {
-        // 현재 시간을 분 단위까지만 가져옴 (초, 나노초 제거 -> 14:02:00)
-        LocalTime now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+    public void assignUserMissions() {
 
-        // 서비스 호출
-        missionService.distributeMissions(now);
+        LocalTime now = LocalTime.now().withSecond(0).withNano(0);  // 초 단위 제거 (13:00 형태)
+
+        // 이 시간에 미션 받기로 설정한 유저 검색
+        List<User> users = userRepository.findByMissionTime(now);
+
+        for (User user : users) {
+            createDailyMissionService.execute(user);
+        }
     }
 }

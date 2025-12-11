@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByEmail(String email);
 
-    List<User> findAllByMissionTime(LocalTime MissionTime);
+    List<User> findByMissionTime(LocalTime missionTime);
 }
