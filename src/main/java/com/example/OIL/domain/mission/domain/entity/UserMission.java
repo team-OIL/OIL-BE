@@ -45,9 +45,9 @@ public class UserMission {
     }
 
     // 미션 완료 처리
-    public void completeMission(MissionCompleteRequest request) {
-        this.resultText = request.text();
-        this.resultImageUrl = request.imgUrl();
+    public void completeMission(String text, String imgUrl) {
+        this.resultText = text;
+        this.resultImageUrl = imgUrl;
         this.isCompleted = true;
         this.completedAt = LocalDateTime.now();
     }
