@@ -17,12 +17,12 @@ public class CreateDailyMissionService {
     private final RandomMissionService randomMissionService;
 
     // 매일 새로운 UserMission 생성
-    public void execute(User user) {
+    public UserMission execute(User user) {
         LocalDate today = LocalDate.now();
 
         // 이미 생성된 미션이 있으면 생성 X
         if (userMissionRepository.existsByUserIdAndAssignedDate(user.getId(), today)) {
-            return;
+            return null;
         }
 
         Mission mission = randomMissionService.execute();
@@ -33,6 +33,6 @@ public class CreateDailyMissionService {
                 .assignedDate(today) // 날짜 기반
                 .build();
 
-        userMissionRepository.save(userMission);
+        return userMissionRepository.save(userMission);
     }
 }

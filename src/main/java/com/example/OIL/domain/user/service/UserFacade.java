@@ -1,4 +1,4 @@
-package com.example.OIL.domain.user.facade;
+package com.example.OIL.domain.user.service;
 
 import com.example.OIL.domain.user.domain.entity.User;
 import com.example.OIL.domain.user.domain.repository.UserRepository;

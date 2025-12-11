@@ -3,7 +3,7 @@ package com.example.OIL.domain.auth.service;
 import com.example.OIL.domain.auth.domain.entity.RefreshToken;
 import com.example.OIL.domain.auth.domain.repository.RefreshTokenRepository;
 import com.example.OIL.domain.auth.exception.AuthErrorCode;
-import com.example.OIL.domain.user.facade.UserFacade;
+import com.example.OIL.domain.user.service.UserFacade;
 import com.example.OIL.global.error.exception.OILException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
