@@ -2,7 +2,7 @@ package com.example.OIL.domain.auth.service;
 
 import com.example.OIL.domain.auth.presentation.dto.request.TokenRequest;
 import com.example.OIL.domain.user.domain.entity.User;
-import com.example.OIL.domain.user.facade.UserFacade;
+import com.example.OIL.domain.user.service.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

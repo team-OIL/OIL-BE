@@ -18,5 +18,7 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
     // 오늘 미션이 이미 생성되었는지 확인
     boolean existsByUserIdAndAssignedDate(Long userId, LocalDate assignedDate);
 
+    long countByUserIdAndIsCompletedFalse(Long userId);
+
     List<UserMission> findByUserIdAndIsCompletedOrderByCompletedAtDesc(Long userId, boolean completed);
 }

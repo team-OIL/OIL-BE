@@ -50,13 +50,6 @@ public class User extends BaseTimeEntity {
     }
 
     /**
-     * 비밀번호 암호화
-     */
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
-    }
-
-    /**
      * 알림 설정 변경
      */
     public void updateAlarm(boolean enabled) {
