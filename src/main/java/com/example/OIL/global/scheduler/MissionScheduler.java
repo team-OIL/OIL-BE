@@ -1,6 +1,6 @@
 package com.example.OIL.global.scheduler;
 
-import com.example.OIL.domain.mission.service.UserMissionService;
+import com.example.OIL.domain.mission.service.CreateDailyMissionService;
 import com.example.OIL.domain.user.domain.entity.User;
 import com.example.OIL.domain.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MissionScheduler {
     private final UserRepository userRepository;
-    private final UserMissionService userMissionService;
+    private final CreateDailyMissionService createDailyMissionService;
 
     // 매 1분마다 실행됨
     @Scheduled(cron = "0 * * * * *")
@@ -23,10 +23,10 @@ public class MissionScheduler {
         LocalTime now = LocalTime.now().withSecond(0).withNano(0);  // 초 단위 제거 (13:00 형태)
 
         // 이 시간에 미션 받기로 설정한 유저 검색
-        List<User> users = userRepository.findByMissiontime(now);
+        List<User> users = userRepository.findByMissionTime(now);
 
         for (User user : users) {
-            userMissionService.createDailyMission(user);
+            createDailyMissionService.execute(user);
         }
     }
 }
