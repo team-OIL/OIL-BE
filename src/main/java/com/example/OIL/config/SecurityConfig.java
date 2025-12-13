@@ -76,12 +76,12 @@ public class SecurityConfig {
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
 
-        //일단 전부 받자....
-        configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("*"));
+        //이거 어케하는지 모르겠어, 너가 나중에 고쳐주라...
+        configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("https://oil-api.dsmhs.kr"));
     
-        configuration.setAllowedMethods(java.util.Collections.singletonList("*"));
+        configuration.setAllowedMethods(java.util.Collections.singletonList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     
-        configuration.setAllowedHeaders(java.util.Collections.singletonList("*"));
+        configuration.setAllowedHeaders(java.util.Collections.singletonList("Authorization", "Content-Type", "Accept"));
     
         configuration.setAllowCredentials(true);
 
