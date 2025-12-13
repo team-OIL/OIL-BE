@@ -77,7 +77,7 @@ public class SecurityConfig {
         org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
 
         //이거 어케하는지 모르겠어, 너가 나중에 고쳐주라...
-        configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("https://oil-api.dsmhs.kr"));
+        configuration.setAllowedOriginPatterns(java.util.Collections.singletonList("https://oil-api.dsmhs.kr","http://10.0.2.2:8081"));
     
         configuration.setAllowedMethods(java.util.Collections.singletonList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     
