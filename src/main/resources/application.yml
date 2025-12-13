@@ -44,3 +44,7 @@ aws:
     access-key: ${AWS_ACCESS_KEY}
     secret-key: ${AWS_SECRET_KEY}
     region: ap-northeast-2
+
+firebase:
+  config:
+    path: classpath:firebase/oilproject-1747a-firebase-adminsdk-fbsvc-b4b6750a15.json

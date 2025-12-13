@@ -1,6 +1,5 @@
 package com.example.OIL.domain.mission.domain.entity;
 
-import com.example.OIL.domain.mission.presentation.dto.request.MissionCompleteRequest;
 import com.example.OIL.domain.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -34,7 +33,7 @@ public class UserMission {
 
     private boolean isCompleted;     // 수행 여부
 
-    private LocalDateTime completedAt; // 수행 완료 시간
+    private LocalDate completedAt; // 수행 완료 시간
 
     @Builder
     public UserMission(User user, Mission mission, LocalDate assignedDate) {
@@ -49,6 +48,6 @@ public class UserMission {
         this.resultText = text;
         this.resultImageUrl = imgUrl;
         this.isCompleted = true;
-        this.completedAt = LocalDateTime.now();
+        this.completedAt = LocalDate.now();
     }
 }
