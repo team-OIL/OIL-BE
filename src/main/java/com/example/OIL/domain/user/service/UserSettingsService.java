@@ -1,5 +1,6 @@
 package com.example.OIL.domain.user.service;
 
+import com.example.OIL.domain.auth.service.UpdatePushTokenService;
 import com.example.OIL.domain.user.domain.entity.User;
 import com.example.OIL.domain.user.domain.repository.UserRepository;
 import com.example.OIL.domain.user.exception.UserErrorCode;
@@ -32,5 +33,12 @@ public class UserSettingsService {
                 .orElseThrow(() -> new OILException(UserErrorCode.USER_NOT_FOUND));
 
         user.updateMissionTime(time);
+    }
+
+    public void updateFcmToken(Long userId, String token) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new OILException(UserErrorCode.USER_NOT_FOUND));
+
+        user.updatePushToken(token);
     }
 }
