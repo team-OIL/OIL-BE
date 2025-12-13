@@ -47,4 +47,4 @@ aws:
 
 firebase:
   config:
-    path: classpath:firebase/oilproject-1747a-firebase-adminsdk-fbsvc-b4b6750a15.json
+    base64: ${FIREBASE_PRIVATE_KEY_BASE64}

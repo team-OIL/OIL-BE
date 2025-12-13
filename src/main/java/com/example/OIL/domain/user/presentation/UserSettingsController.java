@@ -1,5 +1,7 @@
 package com.example.OIL.domain.user.presentation;
 
+import com.example.OIL.domain.auth.presentation.dto.request.TokenRequest;
+import com.example.OIL.domain.auth.service.UpdatePushTokenService;
 import com.example.OIL.domain.user.presentation.dto.request.UpdateAlarmSettingRequest;
 import com.example.OIL.domain.user.presentation.dto.request.UpdateMissionTimeRequest;
 import com.example.OIL.domain.user.service.UserSettingsService;
@@ -36,5 +38,13 @@ public class UserSettingsController {
             @RequestBody UpdateMissionTimeRequest request
     ) {
         userSettingsService.updateMissionReceiveTime(userId, request.MissionTime());
+    }
+
+    @PatchMapping("/{userId}/settings/push-token")
+    public void updateFcmToken(
+            @PathVariable Long userId,
+            @RequestBody TokenRequest request
+    ) {
+        userSettingsService.updateFcmToken(userId, request.pushToken());
     }
 }
