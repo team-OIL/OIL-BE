@@ -19,7 +19,7 @@ public record SignUpRequest(
         @Size(min = 8, max = 30, message = MessageProperty.PASSWORD_SIZE)
         String password,
 
-        @NotBlank(message = MessageProperty.MISSION_TIME_NOT_BLANK)
+        @NotNull(message = MessageProperty.MISSION_TIME_NOT_BLANK)
         LocalTime missionTime,
 
         @NotNull(message = MessageProperty.ALARM_NOT_NULL)

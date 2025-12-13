@@ -1,12 +1,12 @@
 package com.example.OIL.domain.notification.presentation.dto.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record NotificationResponse(
         Long id,
         String title,
         String message,
-        LocalDateTime createdAt,
+        LocalDate createdAt,
         boolean isRead
 ) {
 }

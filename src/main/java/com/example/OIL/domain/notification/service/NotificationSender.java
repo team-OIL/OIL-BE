@@ -23,5 +23,6 @@ public class NotificationSender {
                 .build();
 
         FirebaseMessaging.getInstance().sendAsync(msg);
+
     }
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,7 +21,7 @@ public class Notification {
     private String title;
     private String message;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     private boolean isRead;
 
@@ -29,7 +29,7 @@ public class Notification {
         this.user = user;
         this.title = title;
         this.message = message;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDate.now();
         this.isRead = false;
     }
 
