@@ -42,8 +42,8 @@ public class AuthController {
 
     @PostMapping("/reissue")
     @ResponseStatus(HttpStatus.OK)
-    public TokenResponse reissue(HttpServletRequest request) {
-        return reissueService.execute(request);
+    public TokenResponse reissue(@RequestHeader("X-Refresh-Token") String refreshToken) {
+        return reissueService.execute(refreshToken);
     }
 
     @PatchMapping("/push-token")

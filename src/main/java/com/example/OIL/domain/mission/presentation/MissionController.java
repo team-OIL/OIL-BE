@@ -4,13 +4,14 @@ import com.example.OIL.domain.mission.domain.entity.UserMission;
 import com.example.OIL.domain.mission.presentation.dto.request.MissionCompleteRequest;
 import com.example.OIL.domain.mission.presentation.dto.response.MissionDetailResponse;
 import com.example.OIL.domain.mission.presentation.dto.response.MissionHistoryItemResponse;
+import com.example.OIL.domain.mission.presentation.dto.response.UserMissionResponse;
 import com.example.OIL.domain.mission.service.CompleteMissionListService;
 import com.example.OIL.domain.mission.service.CompleteMissionService;
 import com.example.OIL.domain.mission.service.MissionDetailService;
 import com.example.OIL.domain.mission.service.TodayMissionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class MissionController implements MissionSwagger {
      */
     @Override
     @GetMapping("/today")
-    public UserMission getTodayMission(@RequestParam Long userId) {
-        return todayMissionService.execute(userId);
+    public UserMissionResponse getTodayMission() {
+        return todayMissionService.execute();
     }
 
 
@@ -42,13 +43,13 @@ public class MissionController implements MissionSwagger {
      * - 미션 완료 시간이 자동으로 저장됨
      */
     @Override
-    @PostMapping("/{missionId}/complete")
+    @PostMapping("/{mission-id}/complete")
     public void completeMission(
-            @PathVariable Long missionId,
-            @RequestPart MissionCompleteRequest request,
-            @RequestPart(required = false) MultipartFile file
+            @PathVariable("mission-id") Long missionId,
+            @ModelAttribute @Valid MissionCompleteRequest request
+
     ) {
-        completeMissionService.execute(missionId, request, file);
+        completeMissionService.execute(missionId, request);
 
     }
 
@@ -57,8 +58,8 @@ public class MissionController implements MissionSwagger {
      * - 제목만 반환
      */
     @GetMapping("/completed")
-    public List<MissionHistoryItemResponse> getCompletedList(@RequestParam Long userId) {
-        return completeMissionListService.execute(userId);
+    public List<MissionHistoryItemResponse> getCompletedList() {
+        return completeMissionListService.execute();
     }
 
 
