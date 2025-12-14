@@ -5,7 +5,6 @@ import com.example.OIL.domain.auth.domain.repository.RefreshTokenRepository;
 import com.example.OIL.domain.auth.presentation.dto.response.TokenResponse;
 import com.example.OIL.global.exeption.ExpiredJwt;
 import com.example.OIL.global.exeption.InvalidJwt;
-import com.example.OIL.global.security.OILUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,9 +12,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -74,7 +70,7 @@ public class JwtTokenProvider {
      */
     private String generateRefreshToken(Long userId) {
         String token = generateToken(userId, REFRESH, jwtProperties.refreshTokenExpiration());
-        
+
         refreshTokenRepository.save(
                 RefreshToken.builder()
                         .userId(userId)
