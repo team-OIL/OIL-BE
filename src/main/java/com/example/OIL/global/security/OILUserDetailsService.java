@@ -26,4 +26,13 @@ public class OILUserDetailsService implements UserDetailsService {
 
         return new OILUserDetails(user);
     }
+
+    public OILUserDetails loadUserById(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new OILException(UserErrorCode.USER_NOT_FOUND));
+
+        return new OILUserDetails(user);
+    }
+
 }
