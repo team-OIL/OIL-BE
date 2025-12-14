@@ -125,7 +125,7 @@ public class JwtTokenProvider {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-           
+
             if (e instanceof io.jsonwebtoken.ExpiredJwtException) {
                 throw ExpiredJwt.EXCEPTION;
             } else {
