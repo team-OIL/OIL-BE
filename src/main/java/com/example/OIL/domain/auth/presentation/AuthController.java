@@ -31,7 +31,6 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public TokenResponse login(@RequestBody @Valid LoginRequest request) {
-        System.out.println("asdfasdfasdfasdfasdf");
         return loginService.execute(request);
     }
 

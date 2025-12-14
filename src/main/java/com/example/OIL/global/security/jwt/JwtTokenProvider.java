@@ -74,9 +74,7 @@ public class JwtTokenProvider {
      */
     private String generateRefreshToken(Long userId) {
         String token = generateToken(userId, REFRESH, jwtProperties.refreshTokenExpiration());
-        log.info("SAVE RefreshToken userId={}", userId);
-        System.out.println("asdfasdfsadfasdf");
-        System.out.println(userId);
+        
         refreshTokenRepository.save(
                 RefreshToken.builder()
                         .userId(userId)

@@ -24,13 +24,11 @@ public class ReissueService {
     public TokenResponse execute(String refreshToken) {
 
         // 1. Refresh Token 추출
-        //String refreshToken = jwtTokenProvider.resolveToken(request);
+
         if (refreshToken == null || !jwtTokenProvider.validateRefreshToken(refreshToken)) {
             throw new OILException(AuthErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        // 2. JWT에서 userId 추출
-        //Long userId = jwtTokenProvider.getUserIdFromToken(refreshToken);
 
         // 3. Redis에서 userId 기준 RefreshToken 조회
         RefreshToken storedToken = refreshTokenRepository.findByRefreshToken(refreshToken)
@@ -41,8 +39,7 @@ public class ReissueService {
             throw new OILException(AuthErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        // 5. 기존 RefreshToken 삭제 (rotation)
-        //refreshTokenRepository.deleteById(userId);
+
 
         // 새 토큰 생성
         TokenResponse tokenResponse = jwtTokenProvider.createToken(storedToken.getUserId());
@@ -53,8 +50,6 @@ public class ReissueService {
                 jwtProperties.refreshTokenExpiration()
         );
 
-        // Redis는 dirty checking 안 되므로 save 필요
-        //refreshTokenRepository.save(storedToken);
 
         // 6. 새 토큰 발급 (내부에서 RefreshToken 저장됨)
         return tokenResponse;

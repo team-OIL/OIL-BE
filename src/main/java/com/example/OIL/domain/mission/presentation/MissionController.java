@@ -9,13 +9,9 @@ import com.example.OIL.domain.mission.service.CompleteMissionListService;
 import com.example.OIL.domain.mission.service.CompleteMissionService;
 import com.example.OIL.domain.mission.service.MissionDetailService;
 import com.example.OIL.domain.mission.service.TodayMissionService;
-import com.example.OIL.global.security.OILUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -51,8 +47,7 @@ public class MissionController implements MissionSwagger {
     public void completeMission(
             @PathVariable("mission-id") Long missionId,
             @ModelAttribute @Valid MissionCompleteRequest request
-            //@RequestPart(value = "request", required = false) MissionCompleteRequest request,
-            //@RequestPart(value = "file", required = false) MultipartFile file
+
     ) {
         completeMissionService.execute(missionId, request);
 
