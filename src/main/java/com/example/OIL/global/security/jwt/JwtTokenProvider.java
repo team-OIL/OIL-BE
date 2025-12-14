@@ -83,9 +83,7 @@ public class JwtTokenProvider {
 
     public TokenResponse createToken(Long userId) {
         LocalDateTime now = LocalDateTime.now();
-        log.info("CREATE TOKEN userId={}", userId);
-        System.out.println("1234123412341234");
-        System.out.println(userId);
+
         return TokenResponse.builder()
                 .accessToken(generateAccessToken(userId))
                 .refreshToken(generateRefreshToken(userId))
@@ -125,11 +123,7 @@ public class JwtTokenProvider {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-<<<<<<< HEAD
 
-=======
-           
->>>>>>> ba7c3c9cd0ddf0eb8bad5274adf2a44d0f9dcb07
             if (e instanceof io.jsonwebtoken.ExpiredJwtException) {
                 throw ExpiredJwt.EXCEPTION;
             } else {
@@ -137,6 +131,8 @@ public class JwtTokenProvider {
             }
         }
     }
+
+
 
     /**
      * Refresh Token인지 확인
