@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -47,7 +47,7 @@ public class SecurityConfig {
                         // auth
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/sign-up").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/reissue").permitAll()
 
                         // Swagger (개발용)
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
@@ -72,4 +72,21 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
+
+        //이거 어케하는지 모르겠어, 너가 나중에 고쳐주라...
+        configuration.setAllowedOriginPatterns(java.util.List.of("https://oil-api.dsmhs.kr", "http://10.0.2.2:8081"));
+    
+        configuration.setAllowedMethods(java.util.Collections.singletonList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    
+        configuration.setAllowedHeaders(java.util.Collections.singletonList("Authorization", "Content-Type", "Accept"));
+    
+        configuration.setAllowCredentials(true);
+
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+}
 }

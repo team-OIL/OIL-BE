@@ -1,5 +1,7 @@
 package com.example.OIL.domain.user.presentation;
 
+import com.example.OIL.domain.auth.presentation.dto.request.TokenRequest;
+import com.example.OIL.domain.auth.service.UpdatePushTokenService;
 import com.example.OIL.domain.user.presentation.dto.request.UpdateAlarmSettingRequest;
 import com.example.OIL.domain.user.presentation.dto.request.UpdateMissionTimeRequest;
 import com.example.OIL.domain.user.service.UserSettingsService;
@@ -17,12 +19,11 @@ public class UserSettingsController {
      * 📌 알림 On/Off 변경
      * PATCH /users/{userId}/settings/alarm
      */
-    @PatchMapping("/{userId}/settings/alarm")
+    @PatchMapping("/settings/alarm")
     public void updateAlarmSetting(
-            @PathVariable Long userId,
             @RequestBody UpdateAlarmSettingRequest request
     ) {
-        userSettingsService.updateAlarmSetting(userId, request.alarmEnabled());
+        userSettingsService.updateAlarmSetting(request.alarmEnabled());
     }
 
     /**
@@ -30,11 +31,10 @@ public class UserSettingsController {
      * PATCH /users/{userId}/settings/mission-time
      * body 예: { "missionReceiveTime": "13:00" }
      */
-    @PatchMapping("/{userId}/settings/mission-time")
+    @PatchMapping("/settings/mission-time")
     public void updateMissionReceiveTime(
-            @PathVariable Long userId,
             @RequestBody UpdateMissionTimeRequest request
     ) {
-        userSettingsService.updateMissionReceiveTime(userId, request.MissionTime());
+        userSettingsService.updateMissionReceiveTime(request.MissionTime());
     }
 }
