@@ -19,12 +19,11 @@ public class UserSettingsController {
      * 📌 알림 On/Off 변경
      * PATCH /users/{userId}/settings/alarm
      */
-    @PatchMapping("/{userId}/settings/alarm")
+    @PatchMapping("/settings/alarm")
     public void updateAlarmSetting(
-            @PathVariable Long userId,
             @RequestBody UpdateAlarmSettingRequest request
     ) {
-        userSettingsService.updateAlarmSetting(userId, request.alarmEnabled());
+        userSettingsService.updateAlarmSetting(request.alarmEnabled());
     }
 
     /**
@@ -32,19 +31,10 @@ public class UserSettingsController {
      * PATCH /users/{userId}/settings/mission-time
      * body 예: { "missionReceiveTime": "13:00" }
      */
-    @PatchMapping("/{userId}/settings/mission-time")
+    @PatchMapping("/settings/mission-time")
     public void updateMissionReceiveTime(
-            @PathVariable Long userId,
             @RequestBody UpdateMissionTimeRequest request
     ) {
-        userSettingsService.updateMissionReceiveTime(userId, request.MissionTime());
-    }
-
-    @PatchMapping("/{userId}/settings/push-token")
-    public void updateFcmToken(
-            @PathVariable Long userId,
-            @RequestBody TokenRequest request
-    ) {
-        userSettingsService.updateFcmToken(userId, request.pushToken());
+        userSettingsService.updateMissionReceiveTime(request.MissionTime());
     }
 }

@@ -31,15 +31,7 @@ public class LoginService {
             throw new OILException(AuthErrorCode.INVALID_CREDENTIALS);
         }
 
-
-        TokenResponse tokenResponse = jwtTokenProvider.createToken(request.email());
-
-        // 7) 응답 반환
-        return new TokenResponse(
-                tokenResponse.accessToken(),
-                tokenResponse.refreshToken(),
-                tokenResponse.accessTokenExpiresAt(),
-                tokenResponse.refreshTokenExpiresAt()
-        );
+        System.out.println("createToken run!!!!!!!!!!");
+        return jwtTokenProvider.createToken(user.getId());
     }
 }

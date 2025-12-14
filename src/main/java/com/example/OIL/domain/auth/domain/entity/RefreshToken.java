@@ -15,11 +15,16 @@ import org.springframework.data.redis.core.index.Indexed;
 public class RefreshToken {
 
     @Id
-    private String email;
+    private Long userId;
 
     @Indexed
     private String refreshToken;
 
     @TimeToLive
     private Long ttl;
+
+    public void update(String token, Long ttl) {
+        this.refreshToken = token;
+        this.ttl = ttl;
+    }
 }

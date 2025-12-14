@@ -12,6 +12,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +26,10 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
-    private final OILUserDetailsService oilUserDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
 
     private SecretKey secretKey;
@@ -47,12 +48,12 @@ public class JwtTokenProvider {
     /**
      * Access / RefreshToken 공통 생성 메서드
      */
-    private String generateToken(String email, String type, Long expirationMillis) {
+    private String generateToken(Long userId, String type, Long expirationSeconds) {
         Date now = new Date();
-        Date expiry = new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(expirationMillis));
+        Date expiry = new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(expirationSeconds));
 
         return Jwts.builder()
-                .subject(email)
+                .subject(String.valueOf(userId)) // ⭐ userId
                 .issuedAt(now)
                 .expiration(expiry)
                 .claim(TYPE, type)
@@ -60,48 +61,45 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+
     /**
      * Access token 생성
      */
-    private String generateAccessToken(String email) {
-        return generateToken(
-                email,
-                ACCESS,
-                jwtProperties.accessTokenExpiration()
-        );
+    private String generateAccessToken(Long userId) {
+        return generateToken(userId, ACCESS, jwtProperties.accessTokenExpiration());
     }
 
     /**
      * Refresh token 생성 + DB 저장
      */
-    private String generateRefreshToken(String email) {
-        String refreshToken = generateToken(
-                email,
-                REFRESH,
-                jwtProperties.refreshTokenExpiration()
-        );
-
+    private String generateRefreshToken(Long userId) {
+        String token = generateToken(userId, REFRESH, jwtProperties.refreshTokenExpiration());
+        log.info("SAVE RefreshToken userId={}", userId);
+        System.out.println("asdfasdfsadfasdf");
+        System.out.println(userId);
         refreshTokenRepository.save(
                 RefreshToken.builder()
-                        .email(email)
-                        .refreshToken(refreshToken)
+                        .userId(userId)
+                        .refreshToken(token)
                         .ttl(jwtProperties.refreshTokenExpiration())
                         .build()
         );
-
-        return refreshToken;
+        return token;
     }
 
-    public TokenResponse createToken(String email) {
+    public TokenResponse createToken(Long userId) {
         LocalDateTime now = LocalDateTime.now();
-
+        log.info("CREATE TOKEN userId={}", userId);
+        System.out.println("1234123412341234");
+        System.out.println(userId);
         return TokenResponse.builder()
-                .accessToken(generateAccessToken(email))
-                .refreshToken(generateRefreshToken(email))
+                .accessToken(generateAccessToken(userId))
+                .refreshToken(generateRefreshToken(userId))
                 .accessTokenExpiresAt(now.plusSeconds(jwtProperties.accessTokenExpiration()))
                 .refreshTokenExpiresAt(now.plusSeconds(jwtProperties.refreshTokenExpiration()))
                 .build();
     }
+
 
     /**
      * Authorization 헤더에서 Bearer 토큰 꺼내기
@@ -153,18 +151,10 @@ public class JwtTokenProvider {
         return REFRESH.equals(getClaims(token).get(TYPE));
     }
 
-    /**
-     * DB에도 Refresh Token이 존재하는지 확인
-     */
-    public boolean validateRefreshTokenFromDB(String token) {
-        return refreshTokenRepository.findByRefreshToken(token).isPresent();
-    }
 
-    /**
-     * 이메일(subject) 꺼내기
-     */
-    public String getEmailFromToken(String token) {
-        return getClaims(token).getSubject();
+
+    public Long getUserIdFromToken(String token) {
+        return Long.valueOf(getClaims(token).getSubject());
     }
 
     /**
@@ -179,30 +169,16 @@ public class JwtTokenProvider {
         }
     }
 
-    /**
-     * JWT → Authentication 변환 (SecurityContext에 넣기)
-     */
-    public Authentication authentication(String token) {
-        String email = getEmailFromToken(token);
-        UserDetails userDetails = oilUserDetailsService.loadUserByUsername(email);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
 
-    // Refresh Token 검증 메서드
     public boolean validateRefreshToken(String token) {
         try {
-            // Claims 파싱
             Claims claims = getClaims(token);
 
-            // refresh token인지 확인
-            if (!REFRESH.equals(claims.get("type"))) {
-                return false; // type이 refresh가 아니라면 false 반환
-            }
-
-            // DB에서도 해당 refresh token이 존재하는지 확인
-            return validateRefreshTokenFromDB(token);
+            // refresh 타입인지 + 서명/만료 검증만
+            return REFRESH.equals(claims.get(TYPE));
         } catch (Exception e) {
-            return false; // 예외 발생 시 false 반환
+            return false;
         }
     }
+
 }

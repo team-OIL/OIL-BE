@@ -1,5 +1,6 @@
 package com.example.OIL.global.security.jwt;
 
+import com.example.OIL.global.security.OILUserDetails;
 import com.example.OIL.global.security.OILUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,25 +17,31 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtTokenProvider jwtTokenProvider;
-    private final OILUserDetailsService OILUserDetailsService;
+    private final OILUserDetailsService oilUserDetailsService;
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
     ) throws ServletException, IOException {
 
         String token = jwtTokenProvider.resolveToken(request);
 
-        if(token != null) {
-            try {
-                String email = jwtTokenProvider.getEmailFromToken(token);
+        if (token != null && jwtTokenProvider.isTokenValid(token)
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = OILUserDetailsService.loadUserByUsername(email);
+            try {
+                Long userId = jwtTokenProvider.getUserIdFromToken(token);
+
+                OILUserDetails userDetails =
+                        oilUserDetailsService.loadUserById(userId);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
@@ -48,10 +55,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
             } catch (Exception e) {
-                log.error("JWT 인증 필터 처리 중 오류: {}", e.getMessage());
+                log.error("JWT 인증 실패: {}", e.getMessage());
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }
+
