@@ -44,6 +44,7 @@ aws:
     access-key: ${AWS_ACCESS_KEY}
     secret-key: ${AWS_SECRET_KEY}
     region: ap-northeast-2
+    url: ${S3_BASE_URL}
 
 firebase:
   config:

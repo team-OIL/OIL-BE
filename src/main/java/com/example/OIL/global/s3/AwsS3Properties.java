@@ -12,4 +12,5 @@ public class AwsS3Properties {
     private String accessKey;
     private String secretKey;
     private String region;
+    private String url;
 }
