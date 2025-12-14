@@ -27,7 +27,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException)
             throws IOException {
 
-        log.warn("인증되지 않은 요청: {}", authException.getMessage());
 
         ApiResponse<?> body = ApiResponse.fail(
                 ErrorCode.UNAUTHORIZED.getCode(),
