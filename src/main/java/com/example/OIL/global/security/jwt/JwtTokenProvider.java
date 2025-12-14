@@ -83,9 +83,7 @@ public class JwtTokenProvider {
 
     public TokenResponse createToken(Long userId) {
         LocalDateTime now = LocalDateTime.now();
-        log.info("CREATE TOKEN userId={}", userId);
-        System.out.println("1234123412341234");
-        System.out.println(userId);
+
         return TokenResponse.builder()
                 .accessToken(generateAccessToken(userId))
                 .refreshToken(generateRefreshToken(userId))
