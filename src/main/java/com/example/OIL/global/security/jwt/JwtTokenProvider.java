@@ -133,9 +133,7 @@ public class JwtTokenProvider {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-            // 로그 추가하여 예외의 원인 확인
-            //System.out.println("Exception occurred while parsing token: " + e.getMessage());
-
+            
             if (e instanceof io.jsonwebtoken.ExpiredJwtException) {
                 throw ExpiredJwt.EXCEPTION;
             } else {
