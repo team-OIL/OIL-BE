@@ -35,7 +35,7 @@ public class AwsS3UploadService {
         } catch (IOException e) {
             throw new RuntimeException("S3 업로드 실패", e);
         }
-        
+
         return properties.getUrl() + "/" + fileName;
     }
 }

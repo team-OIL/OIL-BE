@@ -1,7 +1,7 @@
 package com.example.OIL.global.security.jwt;
 
 import com.example.OIL.global.error.exception.ErrorCode;
-import com.example.OIL.common.response.ApiResponse;
+import com.example.OIL.global.response.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
