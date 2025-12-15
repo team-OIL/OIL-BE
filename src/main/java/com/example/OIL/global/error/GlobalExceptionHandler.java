@@ -3,7 +3,7 @@ package com.example.OIL.global.error;
 import com.example.OIL.global.error.exception.ErrorCode;
 import com.example.OIL.global.error.exception.ErrorProperty;
 import com.example.OIL.global.error.exception.OILException;
-import com.example.OIL.common.response.ApiResponse;
+import com.example.OIL.global.response.ApiResponse;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

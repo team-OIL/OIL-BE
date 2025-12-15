@@ -24,12 +24,9 @@ public class MissionController implements MissionSwagger {
     private final CompleteMissionListService completeMissionListService;
     private final MissionDetailService missionDetailService;
     private final CompleteMissionService completeMissionService;
-    /**
-     * 📌 오늘의 미션 조회 (또는 밀린 미션 조회)
-     * - 해당 유저의 완료되지 않은 미션 중 가장 오래된 1개 반환
-     * - 밀린 미션이 있으면 밀린 미션이 먼저 뜨고
-     * - 밀린 미션이 없으면 오늘 생성된 미션이 뜬다.
-     */
+
+    //유저의 오늘의 미션(밀린 미션 조회)
+    //완료되지 않은 미션중 가장 오래된 1개 반환(밀린거 있으면 밀린거 먼저뜸)
     @Override
     @GetMapping("/today")
     public UserMissionResponse getTodayMission() {
@@ -37,11 +34,7 @@ public class MissionController implements MissionSwagger {
     }
 
 
-    /**
-     * 📌 미션 완료 처리 API
-     * - 메시지(text)와 이미지는 둘 다 optional
-     * - 미션 완료 시간이 자동으로 저장됨
-     */
+    //미션 완료 이후 이미지, 텍스트 저장
     @Override
     @PostMapping("/{mission-id}/complete")
     public void completeMission(
@@ -53,20 +46,14 @@ public class MissionController implements MissionSwagger {
 
     }
 
-    /**
-     * 📌 완료한 미션 목록 조회
-     * - 제목만 반환
-     */
+    //완료한 미션 목록
     @GetMapping("/completed")
     public List<MissionHistoryItemResponse> getCompletedList() {
         return completeMissionListService.execute();
     }
 
 
-    /**
-     * 📌 특정 미션 상세 조회
-     * - 제목, 메시지, 이미지, 완료 시간
-     */
+    //특정 미션 상세 조회 - 제목, 이미지, 메세지, 완료 시간
     @GetMapping("/{userMissionId}")
     public MissionDetailResponse getMissionDetail(@PathVariable Long userMissionId) {
         return missionDetailService.execute(userMissionId);

@@ -1,4 +1,4 @@
-package com.example.OIL.common.response;
+package com.example.OIL.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

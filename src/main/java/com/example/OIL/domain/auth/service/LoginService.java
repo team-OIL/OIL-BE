@@ -2,6 +2,7 @@ package com.example.OIL.domain.auth.service;
 
 import com.example.OIL.domain.auth.exception.AuthErrorCode;
 import com.example.OIL.domain.auth.presentation.dto.request.LoginRequest;
+import com.example.OIL.domain.auth.presentation.dto.response.LoginResponse;
 import com.example.OIL.domain.auth.presentation.dto.response.TokenResponse;
 import com.example.OIL.domain.user.domain.entity.User;
 import com.example.OIL.domain.user.domain.repository.UserRepository;
@@ -21,7 +22,7 @@ public class LoginService {
     private final JwtTokenProvider jwtTokenProvider;
 
 
-    public TokenResponse execute (LoginRequest request) {
+    public LoginResponse execute (LoginRequest request) {
         // 1) 이메일로 유저 조회
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new OILException(UserErrorCode.USER_NOT_FOUND));
@@ -31,6 +32,13 @@ public class LoginService {
             throw new OILException(AuthErrorCode.INVALID_CREDENTIALS);
         }
 
-        return jwtTokenProvider.createToken(user.getId());
+        TokenResponse response = jwtTokenProvider.createToken(user.getId());
+        return LoginResponse.builder()
+                .accessToken(response.accessToken())
+                .refreshToken(response.refreshToken())
+                .accessTokenExpiresAt(response.accessTokenExpiresAt())
+                .refreshTokenExpiresAt(response.refreshTokenExpiresAt())
+                .nickname(user.getUserName())
+                .build();
     }
 }

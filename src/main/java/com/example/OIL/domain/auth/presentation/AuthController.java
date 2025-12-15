@@ -3,6 +3,7 @@ package com.example.OIL.domain.auth.presentation;
 import com.example.OIL.domain.auth.presentation.dto.request.LoginRequest;
 import com.example.OIL.domain.auth.presentation.dto.request.SignUpRequest;
 import com.example.OIL.domain.auth.presentation.dto.request.TokenRequest;
+import com.example.OIL.domain.auth.presentation.dto.response.LoginResponse;
 import com.example.OIL.domain.auth.presentation.dto.response.TokenResponse;
 import com.example.OIL.domain.auth.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public TokenResponse login(@RequestBody @Valid LoginRequest request) {
+    public LoginResponse login(@RequestBody @Valid LoginRequest request) {
         return loginService.execute(request);
     }
 
